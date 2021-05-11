@@ -1,8 +1,8 @@
-# YASH
+# COLSH 
 ## Quick Setup
 ```
-git clone git@github.com:gasrwio/yash.git
-cd yash
+git clone git@github.com:gasrwio/colsh.git
+cd colsh 
 make
-./yash
+./colsh
 ```
