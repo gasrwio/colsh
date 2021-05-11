@@ -53,7 +53,7 @@ void colsh_loop(void) {
     } while(status);
 }
 
-int colsh_launcher(char **args) {
+int colsh_launch(char **args) {
     pid_t pid;
     int status;
 
