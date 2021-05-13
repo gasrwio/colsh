@@ -32,7 +32,7 @@ char *builtin_str[] = {
 int main(int argc, char **argv) {
     char *path = config_set();
     if(checkfile(path) == 0) {
-        // TODO: Parse configs, enabling or disabling features 
+        // Parse configs, enabling or disabling features 
         // config_load();
     }
     colsh_loop(); 
@@ -47,12 +47,14 @@ void colsh_loop(void) {
     int status;
 
     do {
+        printf(">> ");
         line = read_line();
         args = line_split_args(line);
         status = colsh_execute(args);
     } while(status);
 }
 
+// Laucnh the command called in a child process
 int colsh_launch(char **args) {
     pid_t pid;
     int status;
@@ -74,6 +76,7 @@ int colsh_launch(char **args) {
     return 1;
 }
 
+// Given the arg, call the builtin funcion or program
 int colsh_execute(char **args) {
     if(args[0] == NULL) {
         return 1;
@@ -106,7 +109,7 @@ char *read_line(void) {
 
 // Split line of args into tokens.
 #define TOK_BUFSIZE 64
-#define TOK_DELIM "\t\r\n\a"
+#define TOK_DELIM " \t\r\n\a"
 char **line_split_args(char *line) {
     int bufsize = TOK_BUFSIZE, position = 0;
     char **tokens = malloc(bufsize * sizeof(char*));
@@ -162,7 +165,7 @@ int colsh_num_builtins() {
     return sizeof(builtin_str) / sizeof(char *);
 }
 
-// cd is not working, work on this latter;
+// Change directory based on args[1] 
 int colsh_cd(char **args) {
     if(args[1] == NULL) {
         fprintf(stderr, "colsh: expected argument to \"cd\"\n");
@@ -173,6 +176,7 @@ int colsh_cd(char **args) {
     return 1;
 }
 
+// Give help about the shell
 int colsh_help(char **args) {
     puts("Type program names and arguments, and hit enter."); 
     puts("The following are built in:");
@@ -186,6 +190,7 @@ int colsh_help(char **args) {
     return 1;
 }
 
+// Exit the shell
 int colsh_exit(char **args) {
     return 0;
 }
